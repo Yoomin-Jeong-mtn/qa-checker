@@ -1,0 +1,5 @@
+NAME,TIME,USER_ID,EVENT_ID,PROPERTIES
+pdp_view,1776064118,user_abc,evt_001,"{""platform"":""PC"",""is_logged_in"":true,""service_type"":""리테일"",""product_no"":""1234"",""review_score"":4.5,""detail_category_name"":""""}"
+pdp_view,1776064119,user_abc,evt_002,"{""platform"":""WEB"",""is_logged_in"":true,""service_type"":""리테일"",""product_no"":""5678"",""review_score"":""not_a_number"",""detail_category_name"":""""}"
+pdp_view,1776064120,user_abc,evt_003,"{""platform"":""PC"",""is_logged_in"":true,""service_type"":""리테일"",""product_no"":""9999"",""review_score"":3.2,""detail_category_name"":"""",""unknown_prop"":""hello""}"
+unknown_event,1776064121,user_abc,evt_004,"{""platform"":""PC""}"
