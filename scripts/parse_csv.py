@@ -1,7 +1,6 @@
 import csv
 import json
 import sys
-from pathlib import Path
 
 
 def parse_csv(filepath: str) -> list[dict]:
