@@ -73,16 +73,15 @@ def validate(rows: list, spec: dict) -> dict:
                     })
                 continue  # 빈값은 type/enum/pattern 검사 생략
 
-            if value != '':
-                checker = TYPE_CHECKERS.get(expected_type)
-                if checker and not checker(value):
-                    violations.append({
-                        'event_id': event_id, 'event_name': event_name,
-                        'key': prop_key, 'value': value,
-                        'error_type': 'type_mismatch',
-                        'error_detail': f'타입 오류 (expected: {expected_type}, got: {type(value).__name__})',
-                    })
-                    continue
+            checker = TYPE_CHECKERS.get(expected_type)
+            if checker and not checker(value):
+                violations.append({
+                    'event_id': event_id, 'event_name': event_name,
+                    'key': prop_key, 'value': value,
+                    'error_type': 'type_mismatch',
+                    'error_detail': f'타입 오류 (expected: {expected_type}, got: {type(value).__name__})',
+                })
+                continue
 
             enum_vals = prop_def.get('enum')
             if enum_vals and value not in enum_vals:
