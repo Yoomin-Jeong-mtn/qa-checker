@@ -1,0 +1,154 @@
+# 이벤트 간 공통 프로퍼티 그룹 정의
+# 이벤트 스펙 파일에서 extends: <group_name> 으로 상속
+properties:
+  product_base: &product_base
+    - key: platform
+      type: string
+      required: true
+      enum: [PC, ANDROID_APP, IOS_APP, MW]
+      allow_empty: false
+    - key: is_logged_in
+      type: boolean
+      required: true
+      allow_empty: false
+    - key: partner_code
+      type: string
+      required: true
+      allow_empty: false
+    - key: path
+      type: string
+      required: true
+      allow_empty: false
+    - key: service_type
+      type: string
+      required: true
+      enum: [리테일, OM, 우아럭스]
+      allow_empty: false
+    - key: product_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: opt_product_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: product_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: product_image_url
+      type: string
+      required: true
+      allow_empty: false
+    - key: store_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: store_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: flag
+      type: string
+      required: true
+      allow_empty: true
+    - key: review_count
+      type: integer
+      required: true
+      allow_empty: false
+    - key: review_score
+      type: number
+      required: true
+      allow_empty: false
+    - key: original_price
+      type: integer
+      required: true
+      allow_empty: false
+    - key: discount_percent
+      type: integer
+      required: true
+      allow_empty: false
+    - key: discount_price
+      type: integer
+      required: true
+      allow_empty: false
+    - key: discount_amount
+      type: integer
+      required: true
+      allow_empty: false
+    - key: deal_name
+      type: string
+      required: false
+      allow_empty: false
+    - key: deal_end_time
+      type: datetime
+      required: false
+      allow_empty: false
+    - key: deal_sold_count
+      type: integer
+      required: true
+      allow_empty: false
+    - key: prd_svc_grp_cd
+      type: string
+      required: true
+      allow_empty: false
+    - key: prd_svc_grp_dtl_cd
+      type: string
+      required: true
+      allow_empty: false
+    - key: large_category_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: middle_category_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: small_category_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: detail_category_name
+      type: string
+      required: true
+      allow_empty: true
+    - key: display_category_name
+      type: string
+      required: true
+      allow_empty: false
+    - key: large_category_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: middle_category_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: small_category_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: detail_category_no
+      type: string
+      required: true
+      allow_empty: true
+    - key: display_category_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: catalog_no
+      type: string
+      required: true
+      allow_empty: true
+    - key: bundle_catalog_group_no
+      type: string
+      required: true
+      allow_empty: false
+    - key: is_sale
+      type: boolean
+      required: true
+      allow_empty: false
+    - key: is_adult_product
+      type: boolean
+      required: true
+      allow_empty: false
