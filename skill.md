@@ -1,11 +1,44 @@
 ---
 name: qa-checker
-description: 이벤트 로그 CSV를 YAML 스펙과 대조하여 QA 검증 후 결과를 Slack으로 발송합니다
+description: 이벤트 로그 CSV를 YAML 스펙과 대조해 QA 검증 후 Slack 발송. 스펙 동기화(구글 시트 → YAML git commit)도 지원합니다.
 ---
 
 # QA Checker
 
 이벤트 로그 CSV를 YAML 스펙과 비교해 프로퍼티명·타입·필수값·허용값을 검증하고, 결과를 Slack으로 알립니다.
+스펙 동기화 요청 시 구글 시트 → YAML 파일 갱신 → git commit을 자동 처리합니다.
+
+---
+
+## 스펙 동기화 모드
+
+사용자가 "스펙 동기화", "sync", "시트 반영" 등을 요청하면 **QA 검증 대신** 아래 절차를 실행한다.
+
+### S1. 설정 읽기
+
+```bash
+cat ~/.qa-checker/config.yaml
+```
+
+`repo_path`와 `sheet.specs_url`을 읽는다.
+`sheet.specs_url`이 없으면:
+> `config.yaml`에 `sheet.specs_url`이 없습니다. `config.yaml.example`을 참고해 추가해 주세요.
+
+### S2. 동기화 실행
+
+```bash
+python3 {repo_path}/scripts/sync_specs.py "{specs_url}" {repo_path}/specs {repo_path}
+```
+
+### S3. 결과 보고
+
+- 변경된 이벤트 목록을 보여준다.
+- 변경사항이 있으면 팀원 반영을 위해 `git push` 여부를 묻는다.
+- 사용자가 동의하면: `git push origin main` (cwd: repo_path)
+
+---
+
+## QA 검증 모드
 
 ## 실행 절차
 
