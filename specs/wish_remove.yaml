@@ -36,11 +36,6 @@ properties:
   type: string
   required: true
   allow_empty: false
-- key: opt_product_no
-  type: string
-  required: false
-  allow_empty: true
-  pattern: ^\d+$
 - key: original_price
   type: number
   required: false
