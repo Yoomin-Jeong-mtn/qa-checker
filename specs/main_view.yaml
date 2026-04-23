@@ -1,7 +1,28 @@
 event: main_view
-extends: simple_base
 properties:
-  - key: tab
-    type: string
-    required: true
-    allow_empty: false
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: tab
+  type: string
+  required: true
+  allow_empty: false
+- key: path
+  type: string
+  required: false
+  allow_empty: true

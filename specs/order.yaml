@@ -1,127 +1,133 @@
 event: order
 properties:
-  - key: pid
-    type: string
-    required: true
-    allow_empty: false
-  - key: c
-    type: string
-    required: true
-    allow_empty: false
-  - key: p
-    type: number
-    required: true
-    allow_empty: false
-  - key: q
-    type: number
-    required: true
-    allow_empty: false
-  - key: order_no
-    type: string
-    required: true
-    pattern: '^\d+$'
-    allow_empty: false
-  - key: is_gift
-    type: boolean
-    required: true
-    allow_empty: false
-  - key: flag_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: product_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: product_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: opt_product_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: product_quantity_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: product_image_url_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: original_price_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: is_sale_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: discount_percent_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: discount_amount_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: discount_price_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: delivery_expect_date_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: delivery_fee_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: delivery_type_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: store_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: large_category_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: middle_category_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: small_category_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: detail_category_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: large_category_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: middle_category_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: small_category_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: detail_category_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: used_coupon_no_list
-    type: string
-    required: false
-    allow_empty: true
-  - key: payment_method
-    type: string
-    required: true
-    allow_empty: false
+- key: pid
+  type: string
+  required: true
+  allow_empty: false
+- key: c
+  type: string
+  required: true
+  allow_empty: false
+- key: p
+  type: number
+  required: true
+  allow_empty: false
+- key: q
+  type: number
+  required: true
+  allow_empty: false
+- key: order_no
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: is_gift
+  type: boolean
+  required: true
+  allow_empty: false
+- key: flag_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_quantity_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_image_url_list
+  type: string
+  required: true
+  allow_empty: false
+- key: original_price_list
+  type: string
+  required: true
+  allow_empty: false
+- key: is_sale_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_percent_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_amount_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_price_list
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_expect_date_list
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_fee_list
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_type_list
+  type: string
+  required: true
+  allow_empty: false
+- key: store_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: large_category_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: middle_category_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: small_category_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: detail_category_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: large_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: middle_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: small_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: detail_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: used_coupon_no_list
+  type: string
+  required: false
+  allow_empty: true
+  pattern: ^\d+$
+- key: payment_method
+  type: string
+  required: true
+  allow_empty: false

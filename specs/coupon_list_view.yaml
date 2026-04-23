@@ -1,31 +1,55 @@
 event: coupon_list_view
-extends: simple_base
 properties:
-  - key: coupon_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_kind_no_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_kind_name_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_discount_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_start_time_list
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_expire_time_list
-    type: string
-    required: true
-    allow_empty: false
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+  - iOS_APP
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
+- key: coupon_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: coupon_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: coupon_kind_no_list
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: coupon_kind_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: coupon_discount_list
+  type: string
+  required: true
+  allow_empty: false
+- key: coupon_start_time_list
+  type: string
+  required: true
+  allow_empty: false
+- key: coupon_expire_time_list
+  type: string
+  required: true
+  allow_empty: false

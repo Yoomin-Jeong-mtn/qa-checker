@@ -1,19 +1,18 @@
-event: exhibition_visit_history
+event: '[martinee]event_user_log (1)'
 properties:
-- key: exhibition_no
+- key: NAME
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: exhibition_name
+- key: PROPERTIES
   type: string
   required: true
   allow_empty: false
-- key: exhibition_end_date
-  type: string
+- key: TIME
+  type: number
   required: true
   allow_empty: false
-- key: time
-  type: datetime
+- key: USER_ID
+  type: string
   required: true
   allow_empty: false

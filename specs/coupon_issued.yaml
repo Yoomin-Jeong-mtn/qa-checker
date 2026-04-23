@@ -1,21 +1,43 @@
 event: coupon_issued
-extends: simple_base
 properties:
-  - key: coupon_no
-    type: string
-    required: true
-    pattern: '^\d+$'
-    allow_empty: false
-  - key: coupon_name
-    type: string
-    required: true
-    allow_empty: false
-  - key: coupon_kind_no
-    type: string
-    required: true
-    pattern: '^\d+$'
-    allow_empty: false
-  - key: coupon_kind_name
-    type: string
-    required: true
-    allow_empty: false
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+  - iOS_APP
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
+- key: coupon_no
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: coupon_name
+  type: string
+  required: true
+  allow_empty: false
+- key: coupon_kind_no
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: coupon_kind_name
+  type: string
+  required: true
+  allow_empty: false

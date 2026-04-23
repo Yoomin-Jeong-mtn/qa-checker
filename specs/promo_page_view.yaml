@@ -1,8 +1,29 @@
 event: promo_page_view
-extends: simple_base
 properties:
-  - key: event_id
-    type: string
-    required: true
-    pattern: '^\d{8}-.+$'
-    allow_empty: false
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
+- key: event_id
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d{8}-.+$

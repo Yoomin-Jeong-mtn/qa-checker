@@ -1,3 +1,25 @@
 event: category_page_view
-extends: simple_base
-properties: []
+properties:
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+  - iOS_APP
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
