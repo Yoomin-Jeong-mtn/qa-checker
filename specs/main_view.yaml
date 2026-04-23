@@ -1,0 +1,7 @@
+event: main_view
+extends: simple_base
+properties:
+  - key: tab
+    type: string
+    required: true
+    allow_empty: false

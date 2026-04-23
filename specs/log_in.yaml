@@ -1,0 +1,11 @@
+event: log_in
+extends: simple_base
+properties:
+  - key: log_in_date
+    type: datetime
+    required: true
+    allow_empty: false
+  - key: log_in_method
+    type: string
+    required: true
+    allow_empty: false

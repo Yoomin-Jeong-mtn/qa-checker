@@ -1,0 +1,21 @@
+event: coupon_issued
+extends: simple_base
+properties:
+  - key: coupon_no
+    type: string
+    required: true
+    pattern: '^\d+$'
+    allow_empty: false
+  - key: coupon_name
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_kind_no
+    type: string
+    required: true
+    pattern: '^\d+$'
+    allow_empty: false
+  - key: coupon_kind_name
+    type: string
+    required: true
+    allow_empty: false

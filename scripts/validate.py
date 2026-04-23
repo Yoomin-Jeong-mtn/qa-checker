@@ -64,7 +64,7 @@ def validate(rows: list, spec: dict) -> dict:
             expected_type = prop_def['type']
             allow_empty = prop_def.get('allow_empty', False)
 
-            if value == '':
+            if value is None or value == '':
                 if not allow_empty:
                     violations.append({
                         'event_id': event_id, 'event_name': event_name,

@@ -1,0 +1,3 @@
+event: 11plus_martplus_page_view
+extends: simple_base
+properties: []

@@ -1,0 +1,144 @@
+event: wish_remove
+extends: simple_base
+properties:
+  - key: product_no
+    type: string
+    required: true
+    pattern: '^\d+$'
+    allow_empty: false
+  - key: product_name
+    type: string
+    required: true
+    allow_empty: false
+  - key: product_image_url
+    type: string
+    required: true
+    allow_empty: false
+  - key: opt_product_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: original_price
+    type: number
+    required: false
+    allow_empty: true
+  - key: discount_amount
+    type: number
+    required: false
+    allow_empty: true
+  - key: discount_percent
+    type: number
+    required: false
+    allow_empty: true
+  - key: discount_price
+    type: number
+    required: false
+    allow_empty: true
+  - key: is_sale
+    type: boolean
+    required: false
+    allow_empty: true
+  - key: is_adult_product
+    type: boolean
+    required: false
+    allow_empty: true
+  - key: review_count
+    type: number
+    required: false
+    allow_empty: true
+  - key: review_score
+    type: number
+    required: false
+    allow_empty: true
+  - key: store_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: store_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: service_type
+    type: string
+    required: false
+    allow_empty: true
+  - key: flag
+    type: string
+    required: false
+    allow_empty: true
+  - key: bundle_catalog_group_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: catalog_no
+    type: string
+    required: false
+    allow_empty: true
+  - key: deal_sold_count
+    type: number
+    required: false
+    allow_empty: true
+  - key: deal_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: deal_end_time
+    type: string
+    required: false
+    allow_empty: true
+  - key: large_category_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: middle_category_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: small_category_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: detail_category_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: display_category_name
+    type: string
+    required: false
+    allow_empty: true
+  - key: large_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: middle_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: small_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: detail_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: display_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true
+  - key: prd_svc_grp_cd
+    type: string
+    required: false
+    allow_empty: true
+  - key: prd_svc_grp_dtl_cd
+    type: string
+    required: false
+    allow_empty: true

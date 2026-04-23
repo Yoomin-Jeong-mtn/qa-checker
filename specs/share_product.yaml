@@ -1,0 +1,8 @@
+event: share_product
+extends: product_base
+properties:
+  - key: display_category_no
+    type: string
+    required: false
+    pattern: '^\d+$'
+    allow_empty: true

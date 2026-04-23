@@ -1,0 +1,31 @@
+event: coupon_list_view
+extends: simple_base
+properties:
+  - key: coupon_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_kind_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_kind_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_discount_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_start_time_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: coupon_expire_time_list
+    type: string
+    required: true
+    allow_empty: false

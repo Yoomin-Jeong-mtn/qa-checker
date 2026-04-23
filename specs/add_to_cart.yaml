@@ -1,0 +1,3 @@
+event: add_to_cart
+extends: product_base
+properties: []

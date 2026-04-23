@@ -1,0 +1,17 @@
+event: promo_event_complete
+extends: simple_base
+properties:
+  - key: event_id
+    type: string
+    required: true
+    pattern: '^\d{8}-.+$'
+    allow_empty: false
+  - key: event_tmtr
+    type: string
+    required: true
+    pattern: '^\d{6}$'
+    allow_empty: false
+  - key: event_tmtr_completed_time
+    type: string
+    required: true
+    allow_empty: false

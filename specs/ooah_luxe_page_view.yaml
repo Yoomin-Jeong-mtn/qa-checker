@@ -1,0 +1,3 @@
+event: ooah_luxe_page_view
+extends: simple_base
+properties: []

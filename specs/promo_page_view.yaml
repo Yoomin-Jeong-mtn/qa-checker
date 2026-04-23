@@ -1,0 +1,8 @@
+event: promo_page_view
+extends: simple_base
+properties:
+  - key: event_id
+    type: string
+    required: true
+    pattern: '^\d{8}-.+$'
+    allow_empty: false

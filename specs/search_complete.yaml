@@ -1,0 +1,16 @@
+event: search_complete
+extends: simple_base
+properties:
+  - key: service_tab
+    type: string
+    required: true
+    enum: [통합검색, 마트플러스, 아마존, ootd, 우아럭스]
+    allow_empty: false
+  - key: search_keyword
+    type: string
+    required: true
+    allow_empty: false
+  - key: search_result_count
+    type: number
+    required: true
+    allow_empty: false

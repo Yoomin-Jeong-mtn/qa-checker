@@ -1,0 +1,107 @@
+event: ordersheet_view
+extends: simple_base
+properties:
+  - key: is_gift
+    type: boolean
+    required: true
+    allow_empty: false
+  - key: product_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: product_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: opt_product_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: opt_product_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: product_quantity_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: original_price_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: is_sale_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: discount_percent_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: discount_amount_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: discount_price_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: delivery_expect_date_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: delivery_fee_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: delivery_type_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: large_category_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: middle_category_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: small_category_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: detail_category_name_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: large_category_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: middle_category_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: small_category_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: detail_category_no_list
+    type: string
+    required: true
+    allow_empty: false
+  - key: original_total_price
+    type: number
+    required: true
+    allow_empty: false
+  - key: discount_amount
+    type: number
+    required: true
+    allow_empty: false
+  - key: delivery_fee
+    type: number
+    required: true
+    allow_empty: false
+  - key: total_price
+    type: number
+    required: true
+    allow_empty: false

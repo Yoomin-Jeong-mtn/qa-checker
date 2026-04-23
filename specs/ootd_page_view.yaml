@@ -1,0 +1,3 @@
+event: ootd_page_view
+extends: simple_base
+properties: []

@@ -1,0 +1,19 @@
+event: exhibition_visit_history
+properties:
+  - key: exhibition_no
+    type: string
+    required: true
+    pattern: '^\d+$'
+    allow_empty: false
+  - key: exhibition_name
+    type: string
+    required: true
+    allow_empty: false
+  - key: exhibition_end_date
+    type: string
+    required: true
+    allow_empty: false
+  - key: time
+    type: datetime
+    required: true
+    allow_empty: false

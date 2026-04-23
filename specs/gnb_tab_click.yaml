@@ -1,0 +1,7 @@
+event: gnb_tab_click
+extends: simple_base
+properties:
+  - key: gnb_tab_name
+    type: string
+    required: true
+    allow_empty: false

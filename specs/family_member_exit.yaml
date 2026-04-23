@@ -1,0 +1,16 @@
+event: family_member_exit
+extends: simple_base
+properties:
+  - key: exit_member
+    type: boolean
+    required: true
+    allow_empty: false
+  - key: family_role
+    type: string
+    required: true
+    enum: [leader, member]
+    allow_empty: false
+  - key: family_name
+    type: string
+    required: true
+    allow_empty: false

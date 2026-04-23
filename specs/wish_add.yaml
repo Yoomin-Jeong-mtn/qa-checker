@@ -1,0 +1,3 @@
+event: wish_add
+extends: product_base
+properties: []

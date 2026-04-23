@@ -1,0 +1,28 @@
+event: exhibition_view
+extends: simple_base
+properties:
+  - key: exhibition_no
+    type: string
+    required: true
+    pattern: '^\d+$'
+    allow_empty: false
+  - key: exhibition_name
+    type: string
+    required: true
+    allow_empty: false
+  - key: exhibition_start_date
+    type: string
+    required: true
+    allow_empty: false
+  - key: exhibition_end_date
+    type: string
+    required: true
+    allow_empty: false
+  - key: exhibition_deeplink
+    type: string
+    required: true
+    allow_empty: false
+  - key: exhibition_mw_url
+    type: string
+    required: true
+    allow_empty: false

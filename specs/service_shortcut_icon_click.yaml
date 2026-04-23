@@ -1,0 +1,7 @@
+event: service_shortcut_icon_click
+extends: simple_base
+properties:
+  - key: icon_name
+    type: string
+    required: true
+    allow_empty: false
