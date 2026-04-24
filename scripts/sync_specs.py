@@ -43,14 +43,12 @@ def parse_condition(required_str: str, condition: str) -> dict:
     required = (required_str == 'Y')
     result = {'required': required, 'allow_empty': not required}
 
-    # enum 파싱: "enum: A, B, C" 또는 "enum:A,B,C"
     enum_match = re.search(r'enum:\s*([^\n(]+)', condition, re.IGNORECASE)
     if enum_match:
         vals = [v.strip() for v in enum_match.group(1).split(',') if v.strip()]
         if vals:
             result['enum'] = vals
 
-    # regex 패턴 파싱: ^ 로 시작하는 것만 (datetime 포맷 문자열 제외)
     pattern_match = re.search(r'regex:\s*(\S+)', condition, re.IGNORECASE)
     if pattern_match:
         pat = pattern_match.group(1)
@@ -95,6 +93,80 @@ def dump_event_yaml(event_name: str, props: list) -> str:
     )
 
 
+def diff_props(old_content: str, new_props: list) -> list[str]:
+    """기존 YAML과 새 props를 비교해 변경사항 요약 문자열 목록 반환."""
+    try:
+        old_data = yaml.safe_load(old_content)
+        old_map = {p['key']: p for p in (old_data.get('properties') or [])}
+    except Exception:
+        return ['내용 변경']
+
+    new_map = {p['key']: p for p in new_props}
+    changes = []
+
+    for key in new_map:
+        if key not in old_map:
+            changes.append(f'{key} 추가')
+
+    for key in old_map:
+        if key not in new_map:
+            changes.append(f'{key} 삭제')
+
+    for key in new_map:
+        if key not in old_map:
+            continue
+        old, new = old_map[key], new_map[key]
+        if old.get('type') != new.get('type'):
+            changes.append(f'{key} 타입 {old.get("type")}→{new.get("type")}')
+        if old.get('required') != new.get('required'):
+            before = '필수' if old.get('required') else '선택'
+            after = '필수' if new.get('required') else '선택'
+            changes.append(f'{key} {before}→{after}')
+        if old.get('enum') != new.get('enum'):
+            changes.append(f'{key} enum 변경')
+        if old.get('pattern') != new.get('pattern'):
+            changes.append(f'{key} pattern 변경')
+
+    return changes
+
+
+def build_commit_message(change_map: dict) -> str:
+    """change_map: {event_name: [change_str, ...] | None(신규)}"""
+    total = len(change_map)
+
+    # 커밋 제목 생성
+    all_details = []
+    for event, details in sorted(change_map.items()):
+        if details is None:
+            all_details.append(f'{event}: 신규')
+        else:
+            for d in details:
+                all_details.append(f'{event}: {d}')
+
+    if len(all_details) == 1:
+        title = f'chore: sync specs - {all_details[0]}'
+    elif total == 1:
+        event = list(change_map)[0]
+        n = len(change_map[event] or [])
+        label = '신규' if change_map[event] is None else f'{n}개 변경'
+        title = f'chore: sync specs - {event} {label}'
+    else:
+        events_str = ', '.join(sorted(change_map)[:3])
+        suffix = f' 외 {total - 3}개' if total > 3 else ''
+        title = f'chore: sync specs - {total}개 이벤트 변경 ({events_str}{suffix})'
+
+    # 본문 상세 내역
+    body_lines = []
+    for event, details in sorted(change_map.items()):
+        if details is None:
+            body_lines.append(f'- [{event}] 신규 이벤트 추가')
+        else:
+            for d in details:
+                body_lines.append(f'- [{event}] {d}')
+
+    return title + '\n\n' + '\n'.join(body_lines)
+
+
 def sync(sheet_url: str, specs_dir: str, repo_path: str):
     print('📥 시트 데이터 가져오는 중...')
     try:
@@ -111,32 +183,35 @@ def sync(sheet_url: str, specs_dir: str, repo_path: str):
     print(f'✅ {len(events)}개 이벤트 파싱 완료')
 
     specs_path = Path(specs_dir)
-    changed = []
+    change_map: dict = {}  # {event_name: [변경사항] or None(신규)}
 
     for event_name, props in sorted(events.items()):
         file_path = specs_path / f'{event_name}.yaml'
         new_content = dump_event_yaml(event_name, props)
 
-        if file_path.exists() and file_path.read_text(encoding='utf-8') == new_content:
-            continue
+        if file_path.exists():
+            old_content = file_path.read_text(encoding='utf-8')
+            if old_content == new_content:
+                continue
+            details = diff_props(old_content, props)
+            change_map[event_name] = details
+            print(f'  ✏️  업데이트: {event_name}.yaml')
+            for d in details:
+                print(f'       · {d}')
+        else:
+            change_map[event_name] = None
+            print(f'  ➕ 신규: {event_name}.yaml')
 
-        is_new = not file_path.exists()
         file_path.write_text(new_content, encoding='utf-8')
-        changed.append(event_name)
-        print(f'  {"➕ 신규" if is_new else "✏️  업데이트"}: {event_name}.yaml')
 
-    if not changed:
+    if not change_map:
         print('변경 사항 없음. 커밋 생략.')
         return
 
     subprocess.run(['git', 'add', 'specs/'], cwd=repo_path, check=True)
-    event_list = '\n'.join(f'- {e}' for e in sorted(changed))
-    commit_msg = (
-        f'chore: sync specs from spreadsheet\n\n'
-        f'{len(changed)}개 이벤트 업데이트:\n{event_list}'
-    )
+    commit_msg = build_commit_message(change_map)
     subprocess.run(['git', 'commit', '-m', commit_msg], cwd=repo_path, check=True)
-    print(f'\n✅ {len(changed)}개 이벤트 변경사항 커밋 완료')
+    print(f'\n✅ {len(change_map)}개 이벤트 변경사항 커밋 완료')
     print('git push를 실행하면 팀원들에게 반영됩니다.')
 
 
