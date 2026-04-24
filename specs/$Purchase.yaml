@@ -1,17 +1,15 @@
-event: family_member_auto_join
+event: $Purchase
 properties:
-- key: family_role
+- key: $product_id
   type: string
   required: true
   allow_empty: false
-  enum:
-  - leader
-  - member
-- key: family_name
+- key: prd_svc_grp_cd_list
   type: string
   required: true
   allow_empty: false
-- key: new_member
-  type: boolean
+- key: store_no_list
+  type: string
   required: true
   allow_empty: false
+  pattern: ^\d+$

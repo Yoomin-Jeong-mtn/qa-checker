@@ -1,17 +1,14 @@
-event: family_member_auto_join
+event: cart_view
 properties:
-- key: family_role
+- key: store_no_list
   type: string
   required: true
   allow_empty: false
-  enum:
-  - leader
-  - member
-- key: family_name
+- key: cart_store_name_list
   type: string
   required: true
   allow_empty: false
-- key: new_member
-  type: boolean
+- key: cart_store_no_list
+  type: string
   required: true
   allow_empty: false

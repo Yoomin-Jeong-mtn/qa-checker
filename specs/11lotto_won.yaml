@@ -1,0 +1,10 @@
+event: 11lotto_won
+properties:
+- key: round
+  type: number
+  required: true
+  allow_empty: false
+- key: rank
+  type: number
+  required: true
+  allow_empty: false

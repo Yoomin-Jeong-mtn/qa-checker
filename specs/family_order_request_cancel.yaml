@@ -1,0 +1,22 @@
+event: family_order_request_cancel
+properties:
+- key: product_no
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_no
+  type: string
+  required: true
+  allow_empty: false
+- key: product_name
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_name
+  type: string
+  required: true
+  allow_empty: false
+- key: product_quantity
+  type: number
+  required: true
+  allow_empty: false

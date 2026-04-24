@@ -1,0 +1,31 @@
+event: family_order_total_cancel
+properties:
+- key: order_no
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: is_gift
+  type: boolean
+  required: true
+  allow_empty: false
+- key: product_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_quantity_list
+  type: string
+  required: true
+  allow_empty: false

@@ -1,0 +1,6 @@
+event: family_mission_complete
+properties:
+- key: family_size
+  type: number
+  required: true
+  allow_empty: false

@@ -1,4 +1,4 @@
-event: night_push_subscribe
+event: search_result_index_10
 properties:
 - key: platform
   type: string
@@ -7,9 +7,8 @@ properties:
   enum:
   - ANDROID_APP
   - IOS_APP
-  - MW
   - PC
-  - iOS_APP
+  - MW
 - key: is_logged_in
   type: boolean
   required: true
@@ -19,7 +18,11 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
-- key: event_id
+- key: search_keyword
+  type: string
+  required: true
+  allow_empty: false
+- key: related_keyword
   type: string
   required: true
   allow_empty: false

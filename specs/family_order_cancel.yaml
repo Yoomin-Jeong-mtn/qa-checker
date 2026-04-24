@@ -1,25 +1,22 @@
-event: night_push_subscribe
+event: family_order_cancel
 properties:
-- key: platform
+- key: product_no
   type: string
   required: true
   allow_empty: false
-  enum:
-  - ANDROID_APP
-  - IOS_APP
-  - MW
-  - PC
-  - iOS_APP
-- key: is_logged_in
-  type: boolean
-  required: true
-  allow_empty: false
-- key: partner_code
+- key: opt_product_no
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: event_id
+- key: product_name
   type: string
+  required: true
+  allow_empty: false
+- key: opt_product_name
+  type: string
+  required: true
+  allow_empty: false
+- key: product_quantity
+  type: number
   required: true
   allow_empty: false

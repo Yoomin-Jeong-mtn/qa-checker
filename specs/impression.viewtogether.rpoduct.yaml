@@ -1,4 +1,4 @@
-event: pdp_view
+event: impression.viewtogether.rpoduct
 properties:
 - key: platform
   type: string
@@ -7,9 +7,8 @@ properties:
   enum:
   - ANDROID_APP
   - IOS_APP
-  - MW
   - PC
-  - iOS_APP
+  - MW
 - key: is_logged_in
   type: boolean
   required: true
@@ -19,16 +18,23 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
-- key: path
+- key: service_type
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
+  enum:
+  - OM
+  - 우아럭스
+  - 마트플러스
 - key: product_no
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
 - key: product_name
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_no
   type: string
   required: true
   allow_empty: false
@@ -36,11 +42,11 @@ properties:
   type: string
   required: true
   allow_empty: false
-- key: original_price
-  type: number
+- key: is_sale
+  type: boolean
   required: true
   allow_empty: false
-- key: discount_amount
+- key: original_price
   type: number
   required: true
   allow_empty: false
@@ -48,12 +54,12 @@ properties:
   type: number
   required: true
   allow_empty: false
-- key: discount_price
+- key: discount_amount
   type: number
   required: true
   allow_empty: false
-- key: is_sale
-  type: boolean
+- key: discount_price
+  type: number
   required: true
   allow_empty: false
 - key: is_adult_product
@@ -64,10 +70,36 @@ properties:
   type: number
   required: true
   allow_empty: false
+  pattern: ^\d+$
 - key: review_score
   type: number
   required: true
   allow_empty: false
+- key: flag
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - amazon
+  - 마트플러스
+  - 뷰티플러스
+- key: deal_name
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - 타임딜
+  - 쇼킹딜
+  - 아마존딜
+- key: deal_end_time
+  type: datetime
+  required: true
+  allow_empty: false
+- key: deal_sold_count
+  type: number
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
 - key: store_no
   type: string
   required: true
@@ -75,36 +107,6 @@ properties:
   pattern: ^\d+$
 - key: store_name
   type: string
-  required: true
-  allow_empty: false
-- key: service_type
-  type: string
-  required: true
-  allow_empty: false
-- key: flag
-  type: string
-  required: false
-  allow_empty: true
-- key: bundle_catalog_group_no
-  type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: catalog_no
-  type: string
-  required: false
-  allow_empty: true
-  pattern: ^\d+$
-- key: deal_name
-  type: string
-  required: false
-  allow_empty: true
-- key: deal_end_time
-  type: string
-  required: false
-  allow_empty: true
-- key: deal_sold_count
-  type: number
   required: true
   allow_empty: false
 - key: large_category_name
@@ -121,8 +123,8 @@ properties:
   allow_empty: false
 - key: detail_category_name
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
 - key: display_category_name
   type: string
   required: true
@@ -144,36 +146,27 @@ properties:
   pattern: ^\d+$
 - key: detail_category_no
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
   pattern: ^\d+$
 - key: display_category_no
   type: string
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: catalog_no
+  type: string
+  required: true
+  allow_empty: false
+- key: bundle_catalog_group_no
+  type: string
+  required: true
+  allow_empty: false
 - key: prd_svc_grp_cd
   type: string
   required: true
   allow_empty: false
-  enum:
-  - '01'
-  - '02'
-  - '03'
 - key: prd_svc_grp_dtl_cd
   type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: delivery_expect_date
-  type: datetime
-  required: true
-  allow_empty: false
-- key: delivery_fee
-  type: number
-  required: true
-  allow_empty: false
-- key: delivery_free_price
-  type: number
   required: true
   allow_empty: false

@@ -1,4 +1,4 @@
-event: night_push_subscribe
+event: 11lotto_reward_claim
 properties:
 - key: platform
   type: string
@@ -7,9 +7,8 @@ properties:
   enum:
   - ANDROID_APP
   - IOS_APP
-  - MW
   - PC
-  - iOS_APP
+  - MW
 - key: is_logged_in
   type: boolean
   required: true
@@ -19,7 +18,11 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
-- key: event_id
+- key: path
   type: string
+  required: true
+  allow_empty: false
+- key: round
+  type: number
   required: true
   allow_empty: false

@@ -154,3 +154,7 @@ properties:
   type: number
   required: true
   allow_empty: false
+- key: prd_svc_grp_cd_list
+  type: string
+  required: true
+  allow_empty: false

@@ -1,0 +1,10 @@
+event: join_membership_be
+properties:
+- key: join_date
+  type: datetime
+  required: true
+  allow_empty: false
+- key: join_method
+  type: string
+  required: true
+  allow_empty: false

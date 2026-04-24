@@ -1,0 +1,6 @@
+event: family_member_join
+properties:
+- key: new_member
+  type: boolean
+  required: true
+  allow_empty: false

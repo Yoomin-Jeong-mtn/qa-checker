@@ -165,3 +165,19 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: product_quantity
+  type: number
+  required: true
+  allow_empty: false
+- key: delivery_expect_date
+  type: datetime
+  required: true
+  allow_empty: false
+- key: delivery_fee
+  type: number
+  required: true
+  allow_empty: false
+- key: delivery_free_price
+  type: number
+  required: true
+  allow_empty: false

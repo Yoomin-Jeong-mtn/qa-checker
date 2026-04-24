@@ -1,4 +1,4 @@
-event: pdp_view
+event: family_order_request_received
 properties:
 - key: platform
   type: string
@@ -7,9 +7,8 @@ properties:
   enum:
   - ANDROID_APP
   - IOS_APP
-  - MW
   - PC
-  - iOS_APP
+  - MW
 - key: is_logged_in
   type: boolean
   required: true
@@ -21,34 +20,34 @@ properties:
   pattern: ^\d+$
 - key: path
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
 - key: product_no
   type: string
   required: true
   allow_empty: false
+- key: order_no
+  type: string
+  required: true
+  allow_empty: false
   pattern: ^\d+$
+- key: opt_product_no
+  type: string
+  required: true
+  allow_empty: false
 - key: product_name
   type: string
   required: true
   allow_empty: false
-- key: product_image_url
+- key: opt_product_name
   type: string
   required: true
   allow_empty: false
+- key: product_quantity
+  type: number
+  required: true
+  allow_empty: false
 - key: original_price
-  type: number
-  required: true
-  allow_empty: false
-- key: discount_amount
-  type: number
-  required: true
-  allow_empty: false
-- key: discount_percent
-  type: number
-  required: true
-  allow_empty: false
-- key: discount_price
   type: number
   required: true
   allow_empty: false
@@ -56,54 +55,19 @@ properties:
   type: boolean
   required: true
   allow_empty: false
-- key: is_adult_product
-  type: boolean
-  required: true
-  allow_empty: false
-- key: review_count
+- key: discount_percent
   type: number
   required: true
   allow_empty: false
-- key: review_score
+- key: discount_amount
   type: number
   required: true
   allow_empty: false
-- key: store_no
-  type: string
+- key: discount_price
+  type: number
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: store_name
-  type: string
-  required: true
-  allow_empty: false
-- key: service_type
-  type: string
-  required: true
-  allow_empty: false
-- key: flag
-  type: string
-  required: false
-  allow_empty: true
-- key: bundle_catalog_group_no
-  type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: catalog_no
-  type: string
-  required: false
-  allow_empty: true
-  pattern: ^\d+$
-- key: deal_name
-  type: string
-  required: false
-  allow_empty: true
-- key: deal_end_time
-  type: string
-  required: false
-  allow_empty: true
-- key: deal_sold_count
+- key: delivery_fee
   type: number
   required: true
   allow_empty: false
@@ -121,8 +85,8 @@ properties:
   allow_empty: false
 - key: detail_category_name
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
 - key: display_category_name
   type: string
   required: true
@@ -144,36 +108,19 @@ properties:
   pattern: ^\d+$
 - key: detail_category_no
   type: string
-  required: false
-  allow_empty: true
+  required: true
+  allow_empty: false
   pattern: ^\d+$
 - key: display_category_no
   type: string
   required: true
   allow_empty: false
   pattern: ^\d+$
-- key: prd_svc_grp_cd
+- key: request_member
   type: string
   required: true
   allow_empty: false
-  enum:
-  - '01'
-  - '02'
-  - '03'
-- key: prd_svc_grp_dtl_cd
+- key: payment_method
   type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: delivery_expect_date
-  type: datetime
-  required: true
-  allow_empty: false
-- key: delivery_fee
-  type: number
-  required: true
-  allow_empty: false
-- key: delivery_free_price
-  type: number
   required: true
   allow_empty: false

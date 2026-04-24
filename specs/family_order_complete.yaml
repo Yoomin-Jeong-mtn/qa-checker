@@ -1,4 +1,4 @@
-event: order_item_complete
+event: family_order_complete
 properties:
 - key: platform
   type: string
@@ -7,8 +7,8 @@ properties:
   enum:
   - ANDROID_APP
   - IOS_APP
-  - MW
   - PC
+  - MW
 - key: is_logged_in
   type: boolean
   required: true
@@ -18,6 +18,10 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: path
+  type: string
+  required: true
+  allow_empty: false
 - key: order_no
   type: string
   required: true
@@ -31,12 +35,6 @@ properties:
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: opt_product_no
-  type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
 - key: product_name
   type: string
   required: true
@@ -53,6 +51,14 @@ properties:
   type: number
   required: true
   allow_empty: false
+- key: is_sale
+  type: boolean
+  required: true
+  allow_empty: false
+- key: discount_percent
+  type: number
+  required: true
+  allow_empty: false
 - key: discount_amount
   type: number
   required: true
@@ -61,40 +67,8 @@ properties:
   type: number
   required: true
   allow_empty: false
-- key: discount_percent
-  type: number
-  required: true
-  allow_empty: false
-- key: is_sale
-  type: boolean
-  required: true
-  allow_empty: false
 - key: delivery_fee
   type: number
-  required: true
-  allow_empty: false
-- key: delivery_type
-  type: string
-  required: false
-  allow_empty: true
-- key: large_category_name
-  type: string
-  required: true
-  allow_empty: false
-- key: middle_category_name
-  type: string
-  required: true
-  allow_empty: false
-- key: small_category_name
-  type: string
-  required: true
-  allow_empty: false
-- key: detail_category_name
-  type: string
-  required: false
-  allow_empty: true
-- key: display_category_name
-  type: string
   required: true
   allow_empty: false
 - key: large_category_no
@@ -107,22 +81,7 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
-- key: small_category_no
-  type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: detail_category_no
-  type: string
-  required: false
-  allow_empty: true
-  pattern: ^\d+$
-- key: display_category_no
-  type: string
-  required: true
-  allow_empty: false
-  pattern: ^\d+$
-- key: store_no
+- key: request_member
   type: string
   required: true
   allow_empty: false

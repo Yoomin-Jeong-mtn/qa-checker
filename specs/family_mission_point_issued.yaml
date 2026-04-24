@@ -1,0 +1,6 @@
+event: family_mission_point_issued
+properties:
+- key: point_amount
+  type: number
+  required: true
+  allow_empty: false
