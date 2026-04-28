@@ -1,0 +1,17 @@
+name: 패밀리 가입 시나리오
+events:
+  - 11plus_subscribe_start
+
+attribute_checks:
+  - trigger_event: 11plus_subscribe_start
+    cancel_event: 11plus_unsubscribe
+    attributes:
+      - key: is_plus_membership_subscribed
+        expected: true
+      - key: plus_membership_join_date
+        expected: event_date_kst
+    on_cancel:
+      - key: is_plus_membership_subscribed
+        expected: false
+      - key: plus_membership_join_date
+        expected: null

@@ -1,10 +1,13 @@
 """이벤트 발생 후 Braze 유저 어트리뷰트 검증"""
 import json
 import sys
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import requests
 import yaml
+
+KST = timezone(timedelta(hours=9))
 
 
 def load_attribute_checks(specs_dir, scenario_name):
@@ -45,6 +48,30 @@ def get_last_event_time(rows, user_id, event_name):
     return max(times) if times else None
 
 
+def to_kst_date(time_str):
+    if not time_str:
+        return None
+    try:
+        dt = datetime.fromisoformat(time_str.replace('Z', '+00:00'))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(KST).strftime('%Y-%m-%d')
+    except Exception:
+        return None
+
+
+def check_attr_value(actual, expected, trigger_time=None):
+    if expected == 'event_date_kst':
+        event_date = to_kst_date(trigger_time)
+        actual_date = to_kst_date(actual) if isinstance(actual, str) else None
+        return actual_date == event_date, f'이벤트 발생일({event_date}) 불일치 (actual: {actual_date})'
+    if expected is None:
+        ok = actual is None or actual == ''
+        return ok, f'null/empty 이어야 함 (actual: {actual})'
+    ok = actual == expected
+    return ok, f'기대값 불일치 (expected: {expected}, actual: {actual})'
+
+
 def validate_attributes(rows, checks, api_key, server):
     violations = []
 
@@ -52,6 +79,7 @@ def validate_attributes(rows, checks, api_key, server):
         trigger_event = check['trigger_event']
         cancel_event = check.get('cancel_event')
         expected_attrs = check['attributes']
+        on_cancel_attrs = check.get('on_cancel', [])
 
         matching_rows = [r for r in rows if r['name'] == trigger_event]
         if not matching_rows:
@@ -60,11 +88,14 @@ def validate_attributes(rows, checks, api_key, server):
         user_ids = list({r['user_id'] for r in matching_rows if r.get('user_id')})
 
         for user_id in user_ids:
-            if cancel_event:
-                trigger_time = get_last_event_time(rows, user_id, trigger_event)
-                cancel_time = get_last_event_time(rows, user_id, cancel_event)
-                if trigger_time and cancel_time and cancel_time > trigger_time:
-                    continue
+            trigger_time = get_last_event_time(rows, user_id, trigger_event)
+            cancel_time = get_last_event_time(rows, user_id, cancel_event) if cancel_event else None
+            cancelled = bool(trigger_time and cancel_time and cancel_time > trigger_time)
+
+            # cancel 발생 시 on_cancel 규칙으로 전환
+            attrs_to_check = on_cancel_attrs if cancelled and on_cancel_attrs else expected_attrs
+            if cancelled and not on_cancel_attrs:
+                continue
 
             user = fetch_braze_user(user_id, api_key, server)
 
@@ -78,19 +109,18 @@ def validate_attributes(rows, checks, api_key, server):
                 continue
 
             custom_attrs = user.get('custom_attributes', {})
-            for attr_rule in expected_attrs:
+            for attr_rule in attrs_to_check:
                 key = attr_rule['key']
                 expected = attr_rule['expected']
                 actual = custom_attrs.get(key)
 
-                if actual != expected:
+                ok, error_msg = check_attr_value(actual, expected, trigger_time)
+                if not ok:
                     violations.append({
                         'user_id': user_id,
                         'event': trigger_event,
                         'key': key,
-                        'expected': expected,
-                        'actual': actual,
-                        'error': f'기대값 불일치 (expected: {expected}, actual: {actual})',
+                        'error': error_msg,
                     })
 
     return {'attribute_violations': violations}
