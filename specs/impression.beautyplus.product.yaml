@@ -22,3 +22,11 @@ properties:
   type: string
   required: true
   allow_empty: false
+- key: path
+  type: string
+  required: false
+  allow_empty: false
+  condition_when:
+    key: platform
+    value: MW
+  condition_note: platform이 MW일 때만 수집

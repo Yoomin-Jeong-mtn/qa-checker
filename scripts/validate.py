@@ -46,6 +46,21 @@ def validate(rows: list, spec: dict, skip_events: list = None) -> dict:
         event_spec = spec[event_name]
 
         for prop_key, prop_def in event_spec.items():
+            if prop_key.startswith('__'):
+                continue
+            condition_when = prop_def.get('condition_when')
+            if condition_when:
+                cw_met = properties.get(condition_when['key']) == condition_when['value']
+                if not cw_met:
+                    if prop_key in properties:
+                        note = prop_def.get('condition_note', f"{condition_when['key']}={condition_when['value']} 일 때만 수집")
+                        violations.append({
+                            'event_id': event_id, 'event_name': event_name,
+                            'key': prop_key, 'value': properties[prop_key],
+                            'error_type': 'unexpected_property',
+                            'error_detail': f'조건 미충족 시 수집 불가 ({note})',
+                        })
+                    continue
             if prop_def.get('required') and prop_key not in properties:
                 violations.append({
                     'event_id': event_id,
@@ -66,6 +81,11 @@ def validate(rows: list, spec: dict, skip_events: list = None) -> dict:
                 continue
 
             prop_def = event_spec[prop_key]
+            condition_when = prop_def.get('condition_when')
+            if condition_when:
+                cw_met = properties.get(condition_when['key']) == condition_when['value']
+                if not cw_met:
+                    continue  # unexpected_property는 위 루프에서 이미 처리
             expected_type = prop_def['type']
             allow_empty = prop_def.get('allow_empty', False)
 
