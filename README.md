@@ -4,7 +4,9 @@
 
 ## 설치
 
-### 1. 레포 클론
+### macOS / Linux
+
+#### 1. 레포 클론
 
 ```bash
 git clone <repo-url> ~/qa-checker
@@ -12,20 +14,57 @@ cd ~/qa-checker
 pip3 install -r requirements.txt
 ```
 
-### 2. 설정 파일 생성
+#### 2. 설정 파일 생성
 
 ```bash
 mkdir -p ~/.qa-checker
 cp config.yaml.example ~/.qa-checker/config.yaml
 ```
 
-`~/.qa-checker/config.yaml`을 열어 `repo_path`와 Slack webhook URL을 입력한다.
+`~/.qa-checker/config.yaml`을 열어 `repo_path`와 Slack bot_token, channel을 입력한다.
 
-### 3. 스킬 설치
+#### 3. 스킬 설치
 
 ```bash
 npx skills add <org/repo@qa-checker> -g -y
 ```
+
+---
+
+### Windows
+
+> Git Bash 또는 WSL 환경을 권장한다. PowerShell에서도 동작하지만 경로 표기에 주의한다.
+
+#### 1. 레포 클론
+
+```bash
+git clone <repo-url> C:/Users/<username>/qa-checker
+cd C:/Users/<username>/qa-checker
+pip install -r requirements.txt   # Windows는 pip3 대신 pip 또는 python -m pip 사용
+```
+
+#### 2. 설정 파일 생성
+
+```bash
+mkdir -p ~/.qa-checker
+cp config.yaml.example ~/.qa-checker/config.yaml
+```
+
+`~/.qa-checker/config.yaml`의 `repo_path`는 Windows 경로(`C:/Users/<username>/qa-checker`)로 입력한다.
+
+#### 3. 스킬 설치
+
+```bash
+npx skills add <org/repo@qa-checker> -g -y
+```
+
+#### Windows 주의사항
+
+| 항목 | 내용 |
+|------|------|
+| Python 명령어 | `python3` 대신 `python` 사용 (Windows Store stub 문제) |
+| `repo_path` | 슬래시(`/`) 또는 백슬래시(`\`) 모두 허용 |
+| `install.sh` | Git Bash에서 실행하거나 수동으로 위 단계를 진행 |
 
 ## 사용법
 

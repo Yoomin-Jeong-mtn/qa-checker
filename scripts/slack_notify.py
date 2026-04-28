@@ -14,7 +14,8 @@ def format_summary(results: dict, filename: str) -> str:
     missing = results.get('missing_events', [])
     scenario = results.get('scenario', '')
 
-    today = datetime.now().strftime('%-m.%-d')
+    now = datetime.now()
+    today = f"{now.month}.{now.day}"
     has_issue = bool(violations or missing)
     status = '⚠️ 이슈 있음' if has_issue else '✅ 이상 없음'
 
