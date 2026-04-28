@@ -16,20 +16,21 @@ def format_summary(results: dict, filename: str) -> str:
 
     today = datetime.now().strftime('%-m.%-d')
     has_issue = bool(violations or missing)
-    status = '❌ 이상 있음' if has_issue else '✅ 이상 없음'
+    status = '⚠️ 이슈 있음' if has_issue else '✅ 이상 없음'
 
-    title = f"[{today} QA 결과] {status}"
+    title = f"[{today} QA 결과]"
+    status_line = status
     if scenario:
-        title += f" | {scenario}"
+        status_line += f" | {scenario}"
 
     if missing:
-        summary_line = f"📋 {filename}  |  총 {total}행  |  미수집 {len(missing)}건  |  포맷 위반 {len(violations)}건"
+        stats_line = f"총 {total}행  검증 : 미수집 {len(missing)}건  |  포맷 위반 {len(violations)}건"
     else:
         violated_ids = {v['event_id'] for v in violations}
         passed = total - len(violated_ids)
-        summary_line = f"📋 {filename}  |  총 {total}행  |  정상 {passed}건  |  위반 {len(violations)}건"
+        stats_line = f"총 {total}행  검증 : 정상 {passed}건  |  위반 {len(violations)}건"
 
-    return f"{title}\n{summary_line}"
+    return f"{title}\n{status_line}\n{stats_line}"
 
 
 def format_detail_chunks(results: dict, inference: list) -> list[str]:
@@ -39,26 +40,27 @@ def format_detail_chunks(results: dict, inference: list) -> list[str]:
 
     lines = []
 
-    if missing:
-        lines.append(f"📋 미수집 이벤트 ({len(missing)}개)")
+    if missing or skipped:
+        total_missing = len(missing) + len(skipped)
+        lines.append(f"📋 미수집 이벤트 ({total_missing}개)")
         for e in missing:
             lines.append(f"  • {e}")
+        if skipped:
+            lines.append(f"  • 조건부 미수집")
+            for e in skipped:
+                lines.append(f"      • {e}")
     else:
         lines.append("📋 미수집 이벤트: 없음")
-
-    if skipped:
-        lines.append("")
-        lines.append(f"⏭️  조건부 수집 제외 ({len(skipped)}개)")
-        for e in skipped:
-            lines.append(f"  • {e}")
 
     lines.append("")
 
     if violations:
         lines.append(f"❌ 포맷 위반 ({len(violations)}건)")
         for v in violations:
+            event_name = v.get('event_name', '')
             event_id = v.get('event_id', '')
-            lines.append(f"  • [event_id: {event_id}] {v['key']}: {v['error_detail']}")
+            lines.append(f"  • {event_name}${v['key']}: {v['error_detail']}")
+            lines.append(f"      • event_id: {event_id}")
     else:
         lines.append("❌ 포맷 위반: 없음")
 
@@ -68,13 +70,9 @@ def format_detail_chunks(results: dict, inference: list) -> list[str]:
         lines.append(f"🔍 미정의 프로퍼티 — AI 추론 ({len(inference)}건)")
         for item in inference:
             lines.append(f"  • [{item['event_name']}] {item['key']}")
-            lines.append(f"    → 추론: {item['inferred_type']}, required: {item['inferred_required']}")
-            lines.append(f"    → 스펙 추가 검토 필요")
+            lines.append(f"      • 추론: {item['inferred_type']}, required: {item['inferred_required']}")
     else:
         lines.append("🔍 미정의 프로퍼티: 없음")
-
-    lines.append("")
-    lines.append("📌 비즈니스 규칙 참고: specs/business_rules.md")
 
     full_text = "\n".join(lines)
     chunks = []
