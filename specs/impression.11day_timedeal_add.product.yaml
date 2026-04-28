@@ -1,0 +1,24 @@
+event: impression.11day_timedeal_add.product
+properties:
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - PC
+  - MW
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: tab_name
+  type: string
+  required: true
+  allow_empty: false

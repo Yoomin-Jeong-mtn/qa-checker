@@ -1,4 +1,4 @@
-event: impression.11day_timedeal.product
+event: impression.recent_together_my.product
 properties:
 - key: platform
   type: string
