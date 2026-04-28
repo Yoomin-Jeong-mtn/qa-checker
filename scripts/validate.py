@@ -23,11 +23,16 @@ TYPE_CHECKERS = {
 }
 
 
-def validate(rows: list, spec: dict) -> dict:
+def validate(rows: list, spec: dict, skip_events: list = None) -> dict:
     violations = []
     unknowns: dict = {}
+    # conditional 이벤트는 자동으로 skip
+    conditional_set = {name for name, props in spec.items() if '__conditional__' in props}
+    skip_set = set(skip_events or []) | conditional_set
 
     for row in rows:
+        if row['name'] in skip_set:
+            continue
         event_name = row['name']
         event_id = row['event_id']
         properties = row['properties']
@@ -106,10 +111,16 @@ def validate(rows: list, spec: dict) -> dict:
         'violations': violations,
         'unknowns': list(unknowns.values()),
         'total_rows': len(rows),
+        'skipped_conditional': [
+            {'event': name, 'condition_note': spec[name]['__conditional__']['condition_note']}
+            for name in sorted(conditional_set)
+            if name in spec
+        ],
     }
 
 
 if __name__ == '__main__':
     rows = json.loads(sys.argv[1])
     spec = json.loads(sys.argv[2])
-    print(json.dumps(validate(rows, spec), ensure_ascii=False))
+    skip_events = json.loads(sys.argv[3]) if len(sys.argv) > 3 else []
+    print(json.dumps(validate(rows, spec, skip_events), ensure_ascii=False))

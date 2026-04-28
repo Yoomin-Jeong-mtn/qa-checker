@@ -10,6 +10,39 @@ description: 이벤트 로그 CSV를 YAML 스펙과 대조해 QA 검증 후 Slac
 
 ---
 
+## 시나리오 검증 모드
+
+사용자가 `/qa-checker {시나리오명} 검증` 또는 `/qa-checker {시나리오명} 시나리오 검증` 형식으로 요청하면 아래 절차를 실행한다.
+
+### SC1. 설정 및 CSV 확인
+
+```bash
+cat ~/.qa-checker/config.yaml
+```
+
+CSV 경로를 사용자에게 확인한다.
+
+### SC2. 파싱 및 시나리오 검증 실행
+
+```bash
+python3 {repo_path}/scripts/parse_csv.py {csv_path}
+python3 {repo_path}/scripts/load_spec.py {repo_path}/specs/
+python3 {repo_path}/scripts/validate_scenario.py '{rows}' '{spec}' '{scenario_name}' '{repo_path}/specs'
+```
+
+### SC3. 결과 보고 및 Slack 발송
+
+결과에서 다음을 요약한다:
+- `missing_events`: 미수집 이벤트 목록
+- `skipped_conditional`: 조건부 수집으로 제외된 이벤트 목록
+- `violations`: 포맷 위반 목록
+
+```bash
+python3 {repo_path}/scripts/slack_notify.py '{results}' '[]' '{filename}' '{bot_token}' '{channel}'
+```
+
+---
+
 ## 스펙 동기화 모드
 
 사용자가 "스펙 동기화", "sync", "시트 반영" 등을 요청하면 **QA 검증 대신** 아래 절차를 실행한다.
@@ -74,6 +107,14 @@ python3 {repo_path}/scripts/load_spec.py {repo_path}/specs
 출력(JSON)을 `spec` 변수에 저장한다.
 
 ### 5. 검증 실행
+
+사용자가 "제외 이벤트"를 명시한 경우 해당 이벤트명을 JSON 배열로 넘긴다:
+
+```bash
+python3 {repo_path}/scripts/validate.py '{rows}' '{spec}' '{skip_events_json}'
+```
+
+제외 이벤트가 없으면:
 
 ```bash
 python3 {repo_path}/scripts/validate.py '{rows}' '{spec}'

@@ -32,6 +32,12 @@ def load_spec(specs_dir: str) -> dict:
         props.extend(event_data.get('properties') or [])
         spec[event_name] = {p['key']: p for p in props}
 
+        if event_data.get('conditional'):
+            spec[event_name]['__conditional__'] = {
+                'conditional': True,
+                'condition_note': event_data.get('condition_note', ''),
+            }
+
     return spec
 
 

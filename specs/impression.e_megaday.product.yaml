@@ -1,4 +1,6 @@
 event: impression.e_megaday.product
+conditional: true
+condition_note: 매월 1일~5일
 properties:
 - key: platform
   type: string

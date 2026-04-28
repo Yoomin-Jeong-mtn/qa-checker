@@ -1,4 +1,6 @@
 event: impression.time_rush2.product
+conditional: true
+condition_note: 매일 18:00~19:00
 properties:
 - key: platform
   type: string

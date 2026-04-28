@@ -1,4 +1,6 @@
 event: impression.midnight.product
+conditional: true
+condition_note: 매일 21:00~23:59
 properties:
 - key: platform
   type: string
