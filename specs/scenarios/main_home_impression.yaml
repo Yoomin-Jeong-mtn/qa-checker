@@ -1,0 +1,15 @@
+name: 메인홈 모듈 impression 이벤트 시나리오
+skip_conditional: true
+events:
+  - impression.recent_together.product
+  - impression.recent_together_my.product
+  - impression.realtime_best.product
+  - impression.time_rush2.product
+  - impression.midnight.product
+  - impression.1day_deal.product
+  - impression.e_megaday.product
+  - impression.hit_product.product
+  - impression.11day_timedeal_add.product
+  - impression.11day_wannabe_brand.product
+  - impression.online_lowest_price.product
+  - impression.beautyplus.product

@@ -9,12 +9,16 @@ from validate import validate
 
 
 def load_scenarios(specs_dir: str) -> list:
-    path = Path(specs_dir) / 'scenarios.yaml'
-    if not path.exists():
+    scenarios_dir = Path(specs_dir) / 'scenarios'
+    if not scenarios_dir.exists():
         return []
-    with open(path, encoding='utf-8') as f:
-        data = yaml.safe_load(f)
-    return data.get('scenarios', [])
+    scenarios = []
+    for yaml_file in sorted(scenarios_dir.glob('*.yaml')):
+        with open(yaml_file, encoding='utf-8') as f:
+            data = yaml.safe_load(f)
+        if data and 'name' in data:
+            scenarios.append(data)
+    return scenarios
 
 
 def find_scenario(scenarios: list, name: str):
