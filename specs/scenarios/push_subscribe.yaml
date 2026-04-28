@@ -1,0 +1,17 @@
+name: 푸시수신동의 시나리오
+events:
+  - push_subscribe
+  - night_push_subscribe
+
+attribute_checks:
+  - trigger_event: push_subscribe
+    cancel_event: push_unsubscribe
+    attributes:
+      - key: is_ad_push_subscribed
+        expected: true
+
+  - trigger_event: night_push_subscribe
+    cancel_event: night_push_unsubscribe
+    attributes:
+      - key: is_night_ad_push_subscribed
+        expected: true

@@ -30,15 +30,55 @@ python3 {repo_path}/scripts/load_spec.py {repo_path}/specs/
 python3 {repo_path}/scripts/validate_scenario.py '{rows}' '{spec}' '{scenario_name}' '{repo_path}/specs'
 ```
 
+시나리오에 `attribute_checks`가 있으면 어트리뷰트 검증도 실행한다:
+
+```bash
+python3 {repo_path}/scripts/validate_attributes.py '{rows}' '{repo_path}/specs' '{scenario_name}' '{braze_api_key}' '{braze_server}'
+```
+
+`attribute_checks`가 없는 시나리오면 생략한다. 결과가 있으면 `results`에 `attribute_violations` 키로 병합한다.
+
 ### SC3. 결과 보고 및 Slack 발송
 
 결과에서 다음을 요약한다:
 - `missing_events`: 미수집 이벤트 목록
 - `skipped_conditional`: 조건부 수집으로 제외된 이벤트 목록
 - `violations`: 포맷 위반 목록
+- `attribute_violations`: 어트리뷰트 불일치 목록 (있는 경우)
 
 ```bash
 python3 {repo_path}/scripts/slack_notify.py '{results}' '[]' '{filename}' '{bot_token}' '{channel}'
+```
+
+---
+
+## 어트리뷰트 QA 모드
+
+사용자가 "어트리뷰트 QA", "어트리뷰트 검증" 등을 요청하면 아래 절차를 실행한다.
+
+### AT1. 설정 및 CSV 확인
+
+```bash
+cat ~/.qa-checker/config.yaml
+```
+
+`braze.api_key`와 `braze.server`를 읽는다. CSV 경로를 사용자에게 확인한다.
+
+### AT2. CSV 파싱 및 어트리뷰트 검증 실행
+
+```bash
+python3 {repo_path}/scripts/parse_csv.py {csv_path}
+python3 {repo_path}/scripts/validate_attributes.py '{rows}' '{repo_path}/specs' '{scenario_name}' '{api_key}' '{server}'
+```
+
+### AT3. 결과 보고 및 Slack 발송
+
+결과에서 다음을 요약한다:
+- `violations`: 어트리뷰트 불일치 목록 (user_id, event, key, expected, actual)
+- `total_checked`: 검증된 유저 수
+
+```bash
+python3 {repo_path}/scripts/slack_notify_attributes.py '{results}' '{filename}' '{bot_token}' '{channel}'
 ```
 
 ---

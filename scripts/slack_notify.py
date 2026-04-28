@@ -14,9 +14,11 @@ def format_summary(results: dict, filename: str) -> str:
     missing = results.get('missing_events', [])
     scenario = results.get('scenario', '')
 
+    attr_violations = results.get('attribute_violations', [])
+
     now = datetime.now()
     today = f"{now.month}.{now.day}"
-    has_issue = bool(violations or missing)
+    has_issue = bool(violations or missing or attr_violations)
     status = '⚠️ 이슈 있음' if has_issue else '✅ 이상 없음'
 
     title = f"[{today} QA 결과]"
@@ -25,11 +27,11 @@ def format_summary(results: dict, filename: str) -> str:
         status_line += f" | {scenario}"
 
     if missing:
-        stats_line = f"총 {total}행  검증 : 미수집 {len(missing)}건  |  포맷 위반 {len(violations)}건"
+        stats_line = f"총 {total}행  검증 : 미수집 {len(missing)}건  |  포맷 위반 {len(violations)}건  |  어트리뷰트 {len(attr_violations)}건"
     else:
         violated_ids = {v['event_id'] for v in violations}
         passed = total - len(violated_ids)
-        stats_line = f"총 {total}행  검증 : 정상 {passed}건  |  위반 {len(violations)}건"
+        stats_line = f"총 {total}행  검증 : 정상 {passed}건  |  위반 {len(violations)}건  |  어트리뷰트 {len(attr_violations)}건"
 
     return f"{title}\n{status_line}\n{stats_line}"
 
@@ -38,6 +40,7 @@ def format_detail_chunks(results: dict, inference: list) -> list[str]:
     violations = results.get('violations', [])
     missing = results.get('missing_events', [])
     skipped = results.get('skipped_conditional', [])
+    attr_violations = results.get('attribute_violations', [])
 
     lines = []
 
@@ -64,6 +67,19 @@ def format_detail_chunks(results: dict, inference: list) -> list[str]:
             lines.append(f"      • event_id: {event_id}")
     else:
         lines.append("❌ 포맷 위반: 없음")
+
+    lines.append("")
+
+    if attr_violations:
+        lines.append(f"🔗 어트리뷰트 불일치 ({len(attr_violations)}건)")
+        for v in attr_violations:
+            if v.get('key'):
+                lines.append(f"  • [{v['event']}] {v['key']}: {v['error']}")
+            else:
+                lines.append(f"  • [{v['event']}] {v['error']}")
+            lines.append(f"      • user_id: {v['user_id']}")
+    else:
+        lines.append("🔗 어트리뷰트 불일치: 없음")
 
     lines.append("")
 
