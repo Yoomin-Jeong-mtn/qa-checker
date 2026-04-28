@@ -1,6 +1,7 @@
 repo_path: /path/to/qa-checker   # 이 레포를 클론한 절대 경로로 변경
 slack:
-  webhook_url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL
-  channel: "#qa-alerts"
+  bot_token: xoxb-YOUR-BOT-TOKEN
+  channel: your-channel-name
+  channel_id: YOUR_CHANNEL_ID
 sheet:
   specs_url: https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/export?format=csv&gid=YOUR_GID

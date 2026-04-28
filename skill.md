@@ -103,8 +103,11 @@ python3 {repo_path}/scripts/validate.py '{rows}' '{spec}'
 
 ### 7. Slack 발송
 
+`bot_token`과 `channel`을 config에서 읽어 실행한다:
+
 ```bash
-python3 {repo_path}/scripts/slack_notify.py '{results}' '{inference}' '{filename}' '{webhook_url}'
+python3 {repo_path}/scripts/slack_notify.py '{results}' '{inference}' '{filename}' '{bot_token}' '{channel}'
 ```
 
 여기서 `{filename}`은 CSV 파일명(경로 제외), `{results}`는 Step 5의 출력 JSON이다.
+첫 메시지로 `[날짜 QA 결과]` 요약을 보내고, 상세 내용은 스레드 댓글로 달린다.

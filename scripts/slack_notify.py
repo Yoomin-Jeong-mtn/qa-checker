@@ -1,19 +1,31 @@
 import json
 import sys
+from datetime import datetime
 
 import requests
 
 SLACK_MAX_CHARS = 3000
+SLACK_API = 'https://slack.com/api'
 
 
-def format_message(results: dict, filename: str, inference: list) -> list[str]:
+def format_summary(results: dict, filename: str) -> str:
     violations = results['violations']
     total = results['total_rows']
     violated_ids = {v['event_id'] for v in violations}
     passed = total - len(violated_ids)
 
-    lines = [f"📋 QA 결과 | {filename}  (총 {total}행)\n"]
+    today = datetime.now().strftime('%-m.%-d')
+    status = '❌ 불일치 있음' if violations else '✅ 이상 없음'
+    return (
+        f"[{today} QA 결과] {status}\n"
+        f"📋 {filename}  |  총 {total}행  |  정상 {passed}건  |  위반 {len(violations)}건"
+    )
 
+
+def format_detail_chunks(results: dict, inference: list) -> list[str]:
+    violations = results['violations']
+
+    lines = []
     if violations:
         lines.append(f"❌ 스펙 불일치 ({len(violations)}건)")
         for v in violations:
@@ -33,8 +45,6 @@ def format_message(results: dict, filename: str, inference: list) -> list[str]:
         lines.append("🔍 미정의 프로퍼티: 없음")
 
     lines.append("")
-    lines.append(f"✅ 정상: {passed}건")
-    lines.append("")
     lines.append("📌 비즈니스 규칙 참고: specs/business_rules.md")
 
     full_text = "\n".join(lines)
@@ -49,17 +59,40 @@ def format_message(results: dict, filename: str, inference: list) -> list[str]:
     return chunks
 
 
-def send_to_slack(webhook_url: str, messages: list[str]) -> None:
-    for msg in messages:
-        response = requests.post(webhook_url, json={'text': msg}, timeout=10)
-        response.raise_for_status()
+def post_message(token: str, channel: str, text: str, thread_ts: str = None) -> str:
+    payload = {'channel': channel, 'text': text}
+    if thread_ts:
+        payload['thread_ts'] = thread_ts
+    resp = requests.post(
+        f'{SLACK_API}/chat.postMessage',
+        headers={'Authorization': f'Bearer {token}', 'Content-Type': 'application/json; charset=utf-8'},
+        json=payload,
+        timeout=10,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if not data.get('ok'):
+        raise RuntimeError(f"Slack error: {data.get('error')}")
+    return data['ts']
+
+
+def send_to_slack(token: str, channel: str, results: dict, inference: list, filename: str) -> None:
+    # 1. 스레드 부모 메시지 (요약)
+    summary = format_summary(results, filename)
+    thread_ts = post_message(token, channel, summary)
+
+    # 2. 상세 내용을 스레드 댓글로
+    chunks = format_detail_chunks(results, inference)
+    for chunk in chunks:
+        post_message(token, channel, chunk, thread_ts=thread_ts)
+
+    print(f"Slack 알림 발송 완료 (스레드 댓글 {len(chunks)}개)")
 
 
 if __name__ == '__main__':
     results = json.loads(sys.argv[1])
     inference = json.loads(sys.argv[2])
     filename = sys.argv[3]
-    webhook_url = sys.argv[4]
-    messages = format_message(results, filename, inference)
-    send_to_slack(webhook_url, messages)
-    print(f"Slack 알림 발송 완료 ({len(messages)}개 메시지)")
+    token = sys.argv[4]
+    channel = sys.argv[5]
+    send_to_slack(token, channel, results, inference, filename)
