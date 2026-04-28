@@ -22,6 +22,8 @@ def load_spec(specs_dir: str) -> dict:
         with open(yaml_file, encoding='utf-8') as f:
             event_data = yaml.safe_load(f)
 
+        if not event_data or 'event' not in event_data:
+            continue
         event_name = event_data['event']
         props: list = []
 

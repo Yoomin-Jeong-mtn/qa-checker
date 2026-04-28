@@ -9,29 +9,58 @@ SLACK_API = 'https://slack.com/api'
 
 
 def format_summary(results: dict, filename: str) -> str:
-    violations = results['violations']
-    total = results['total_rows']
-    violated_ids = {v['event_id'] for v in violations}
-    passed = total - len(violated_ids)
+    violations = results.get('violations', [])
+    total = results.get('total_rows', 0)
+    missing = results.get('missing_events', [])
+    scenario = results.get('scenario', '')
 
     today = datetime.now().strftime('%-m.%-d')
-    status = '❌ 불일치 있음' if violations else '✅ 이상 없음'
-    return (
-        f"[{today} QA 결과] {status}\n"
-        f"📋 {filename}  |  총 {total}행  |  정상 {passed}건  |  위반 {len(violations)}건"
-    )
+    has_issue = bool(violations or missing)
+    status = '❌ 이상 있음' if has_issue else '✅ 이상 없음'
+
+    title = f"[{today} QA 결과] {status}"
+    if scenario:
+        title += f" | {scenario}"
+
+    if missing:
+        summary_line = f"📋 {filename}  |  총 {total}행  |  미수집 {len(missing)}건  |  포맷 위반 {len(violations)}건"
+    else:
+        violated_ids = {v['event_id'] for v in violations}
+        passed = total - len(violated_ids)
+        summary_line = f"📋 {filename}  |  총 {total}행  |  정상 {passed}건  |  위반 {len(violations)}건"
+
+    return f"{title}\n{summary_line}"
 
 
 def format_detail_chunks(results: dict, inference: list) -> list[str]:
-    violations = results['violations']
+    violations = results.get('violations', [])
+    missing = results.get('missing_events', [])
+    skipped = results.get('skipped_conditional', [])
 
     lines = []
-    if violations:
-        lines.append(f"❌ 스펙 불일치 ({len(violations)}건)")
-        for v in violations:
-            lines.append(f"  • [event_id: {v['event_id']}] {v['key']}: {v['error_detail']}")
+
+    if missing:
+        lines.append(f"📋 미수집 이벤트 ({len(missing)}개)")
+        for e in missing:
+            lines.append(f"  • {e}")
     else:
-        lines.append("❌ 스펙 불일치: 없음")
+        lines.append("📋 미수집 이벤트: 없음")
+
+    if skipped:
+        lines.append("")
+        lines.append(f"⏭️  조건부 수집 제외 ({len(skipped)}개)")
+        for e in skipped:
+            lines.append(f"  • {e}")
+
+    lines.append("")
+
+    if violations:
+        lines.append(f"❌ 포맷 위반 ({len(violations)}건)")
+        for v in violations:
+            event_id = v.get('event_id', '')
+            lines.append(f"  • [event_id: {event_id}] {v['key']}: {v['error_detail']}")
+    else:
+        lines.append("❌ 포맷 위반: 없음")
 
     lines.append("")
 
