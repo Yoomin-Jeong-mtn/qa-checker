@@ -1,4 +1,4 @@
-event: impression.viewtogether.rpoduct
+event: impression.viewtogether.product
 properties:
 - key: platform
   type: string
@@ -24,13 +24,10 @@ properties:
   allow_empty: false
   enum:
   - OM
+  - 리테일
   - 우아럭스
   - 마트플러스
 - key: product_no
-  type: string
-  required: true
-  allow_empty: false
-- key: product_name
   type: string
   required: true
   allow_empty: false
@@ -38,12 +35,32 @@ properties:
   type: string
   required: true
   allow_empty: false
+- key: product_name
+  type: string
+  required: true
+  allow_empty: false
 - key: product_image_url
   type: string
   required: true
   allow_empty: false
-- key: is_sale
-  type: boolean
+- key: store_no
+  type: string
+  required: true
+  allow_empty: false
+- key: store_name
+  type: string
+  required: true
+  allow_empty: false
+- key: flag
+  type: string
+  required: true
+  allow_empty: true
+- key: review_count
+  type: number
+  required: true
+  allow_empty: false
+- key: review_score
+  type: number
   required: true
   allow_empty: false
 - key: original_price
@@ -54,60 +71,49 @@ properties:
   type: number
   required: true
   allow_empty: false
-- key: discount_amount
-  type: number
-  required: true
-  allow_empty: false
 - key: discount_price
   type: number
   required: true
   allow_empty: false
-- key: is_adult_product
-  type: boolean
-  required: true
-  allow_empty: false
-- key: review_count
+- key: discount_amount
   type: number
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: review_score
-  type: number
-  required: true
-  allow_empty: false
-- key: flag
-  type: string
-  required: true
-  allow_empty: false
-  enum:
-  - amazon
-  - 마트플러스
-  - 뷰티플러스
 - key: deal_name
   type: string
-  required: true
-  allow_empty: false
+  required: false
+  allow_empty: true
   enum:
   - 타임딜
   - 쇼킹딜
   - 아마존딜
 - key: deal_end_time
   type: datetime
-  required: true
+  required: false
   allow_empty: false
 - key: deal_sold_count
   type: number
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: store_no
+- key: delivery_expect_date
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
-- key: store_name
+- key: delivery_fee
+  type: number
+  required: true
+  allow_empty: false
+- key: delivery_free_price
+  type: number
+  required: true
+  allow_empty: false
+- key: prd_svc_grp_cd
   type: string
   required: true
+  allow_empty: false
+- key: prd_svc_grp_dtl_cd
+  type: string
+  required: false
   allow_empty: false
 - key: large_category_name
   type: string
@@ -124,7 +130,7 @@ properties:
 - key: detail_category_name
   type: string
   required: true
-  allow_empty: false
+  allow_empty: true
 - key: display_category_name
   type: string
   required: true
@@ -147,8 +153,7 @@ properties:
 - key: detail_category_no
   type: string
   required: true
-  allow_empty: false
-  pattern: ^\d+$
+  allow_empty: true
 - key: display_category_no
   type: string
   required: true
@@ -157,16 +162,16 @@ properties:
 - key: catalog_no
   type: string
   required: true
-  allow_empty: false
+  allow_empty: true
 - key: bundle_catalog_group_no
   type: string
   required: true
   allow_empty: false
-- key: prd_svc_grp_cd
-  type: string
+- key: is_sale
+  type: boolean
   required: true
   allow_empty: false
-- key: prd_svc_grp_dtl_cd
-  type: string
+- key: is_adult_product
+  type: boolean
   required: true
   allow_empty: false
