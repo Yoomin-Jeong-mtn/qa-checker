@@ -54,6 +54,10 @@ def prop_to_row(event_name, prop):
         conditions.append(f"enum: {', '.join(str(e) for e in prop['enum'])}")
     if prop.get('pattern'):
         conditions.append(f"regex: {prop['pattern']}")
+    for rule in prop.get('value_rules', []):
+        kws = ' / '.join(rule.get('if_contains', []))
+        must = rule.get('must_match', '')
+        conditions.append(f"if_contains({kws}) → must_match: {must}")
 
     return [event_name, prop.get('key', ''), data_type, required_str, ' / '.join(conditions)]
 

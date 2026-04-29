@@ -9,6 +9,7 @@ properties:
   - IOS_APP
   - MW
   - PC
+  - iOS_APP
 - key: is_logged_in
   type: boolean
   required: true

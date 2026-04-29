@@ -27,7 +27,6 @@ properties:
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
 - key: coupon_name_list
   type: string
   required: true
@@ -36,7 +35,6 @@ properties:
   type: string
   required: true
   allow_empty: false
-  pattern: ^\d+$
 - key: coupon_kind_name_list
   type: string
   required: true

@@ -127,6 +127,21 @@ def validate(rows: list, spec: dict, skip_events: list = None) -> dict:
                     'error_detail': f'패턴 불일치 (pattern: {pattern})',
                 })
 
+            for rule in prop_def.get('value_rules', []):
+                if_contains = rule.get('if_contains', [])
+                if not isinstance(value, str):
+                    continue
+                if not any(kw in value for kw in if_contains):
+                    continue
+                must_match = rule.get('must_match')
+                if must_match and not re.search(must_match, value):
+                    violations.append({
+                        'event_id': event_id, 'event_name': event_name,
+                        'key': prop_key, 'value': value,
+                        'error_type': 'value_rule_mismatch',
+                        'error_detail': f'조건부 패턴 누락 — "{"|".join(if_contains)}" 포함 시 "{must_match}" 필요',
+                    })
+
     return {
         'violations': violations,
         'unknowns': list(unknowns.values()),

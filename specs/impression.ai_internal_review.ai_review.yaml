@@ -99,6 +99,11 @@ properties:
   type: string
   required: true
   allow_empty: false
+  value_rules:
+    - if_contains:
+        - 오늘 도착
+        - 내일 도착
+      must_match: '\(.+시까지 주문시\)'
 - key: delivery_fee
   type: number
   required: true
