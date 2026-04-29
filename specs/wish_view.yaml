@@ -1,5 +1,47 @@
 event: wish_view
 properties:
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+  - iOS_APP
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
+  condition_when:
+    key: platform
+    value: MW
+- key: product_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_image_url_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_price_list
+  type: string
+  required: true
+  allow_empty: false
 - key: flag_list
   type: string
   required: true

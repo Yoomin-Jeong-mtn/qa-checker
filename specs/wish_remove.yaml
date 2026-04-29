@@ -28,6 +28,10 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: opt_product_no
+  type: string
+  required: true
+  allow_empty: false
 - key: product_name
   type: string
   required: true
@@ -160,3 +164,15 @@ properties:
   type: string
   required: false
   allow_empty: true
+- key: delivery_expect_date
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_fee
+  type: number
+  required: true
+  allow_empty: false
+- key: delivery_free_price
+  type: number
+  required: true
+  allow_empty: false

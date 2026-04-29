@@ -1,6 +1,100 @@
 event: cart_view
 properties:
+- key: platform
+  type: string
+  required: true
+  allow_empty: false
+  enum:
+  - ANDROID_APP
+  - IOS_APP
+  - MW
+  - PC
+  - iOS_APP
+- key: is_logged_in
+  type: boolean
+  required: true
+  allow_empty: false
+- key: partner_code
+  type: string
+  required: true
+  allow_empty: false
+  pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true
+  condition_when:
+    key: platform
+    value: MW
+- key: selected_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: opt_product_name_list
+  type: string
+  required: true
+  allow_empty: false
+- key: product_quantity_list
+  type: string
+  required: true
+  allow_empty: false
+- key: original_price_list
+  type: string
+  required: true
+  allow_empty: false
+- key: is_sale_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_percent_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_amount_list
+  type: string
+  required: true
+  allow_empty: false
+- key: discount_price_list
+  type: string
+  required: true
+  allow_empty: false
+- key: deal_name_list
+  type: string
+  required: false
+  allow_empty: true
+- key: deal_end_time_list
+  type: string
+  required: false
+  allow_empty: true
+- key: delivery_expected_date_list
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_fee_list
+  type: string
+  required: true
+  allow_empty: false
+- key: delivery_type_list
+  type: string
+  required: false
+  allow_empty: true
 - key: store_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: store_name_list
   type: string
   required: true
   allow_empty: false
@@ -12,3 +106,19 @@ properties:
   type: string
   required: true
   allow_empty: false
+- key: large_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: middle_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: small_category_no_list
+  type: string
+  required: true
+  allow_empty: false
+- key: detail_category_no_list
+  type: string
+  required: false
+  allow_empty: true

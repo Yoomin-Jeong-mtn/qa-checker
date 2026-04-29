@@ -24,6 +24,10 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: opt_product_no
+  type: string
+  required: true
+  allow_empty: false
 - key: product_name
   type: string
   required: true
@@ -158,7 +162,7 @@ properties:
   - '03'
 - key: prd_svc_grp_dtl_cd
   type: string
-  required: true
+  required: false
   allow_empty: false
   pattern: ^\d+$
 - key: path
@@ -166,7 +170,7 @@ properties:
   required: false
   allow_empty: true
 - key: delivery_expect_date
-  type: datetime
+  type: string
   required: true
   allow_empty: false
 - key: delivery_fee
