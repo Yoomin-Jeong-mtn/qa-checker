@@ -10,6 +10,41 @@ description: 이벤트 로그 CSV를 YAML 스펙과 대조해 QA 검증 후 Slac
 
 ---
 
+## 패밀리 주문 시나리오 검증 모드
+
+사용자가 `type: family_order`인 시나리오를 요청하면 아래 절차를 실행한다.
+
+### FO1. 설정 및 CSV 확인
+
+```bash
+cat ~/.qa-checker/config.yaml
+```
+
+`braze.api_key`, `braze.server`, `slack.bot_token`, `slack.channel`을 읽는다. CSV 경로를 확인한다.
+
+### FO2. 파싱 및 검증 실행
+
+```bash
+python3 {repo_path}/scripts/parse_csv.py {csv_path}
+python3 {repo_path}/scripts/load_spec.py {repo_path}/specs/
+python3 {repo_path}/scripts/validate_family_order.py '{rows}' '{spec}' '{scenario_name}' '{repo_path}/specs' '{braze_api_key}' '{braze_server}'
+```
+
+### FO3. 결과 보고 및 Slack 발송
+
+결과는 order_no별로 멤버/리더 구분해서 리포트한다:
+- 수집된 이벤트 목록
+- 미수집 이벤트
+- 프로퍼티 위반 (스펙 YAML 참조)
+- 어트리뷰트 불일치
+- cross_check 불일치
+
+```bash
+python3 {repo_path}/scripts/slack_notify_family_order.py '{results}' '{filename}' '{bot_token}' '{channel}'
+```
+
+---
+
 ## 시나리오 검증 모드
 
 사용자가 `/qa-checker {시나리오명} 검증` 또는 `/qa-checker {시나리오명} 시나리오 검증` 형식으로 요청하면 아래 절차를 실행한다.

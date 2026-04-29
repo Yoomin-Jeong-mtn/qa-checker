@@ -1,0 +1,86 @@
+name: 패밀리 결제 요청 시나리오
+type: family_order
+correlation_key: order_no
+
+phase_detection:
+  complete:
+    - family_order_complete
+  reject:
+    - family_order_request_reject
+  cancel_after_complete:
+    - family_order_cancel
+    - family_order_total_cancel
+
+phases:
+  request:
+    member:
+      events:
+        - family_order_submitted_page_view
+        - family_order_request
+      optional_events:
+        - coupon_used
+      attribute_checks:
+        - key: purchase_history
+          check: array_last_item_field_equals
+          trigger_event: family_order_request
+          match_field: product_no
+        - key: last_purchase_date
+          expected: event_date_kst
+          trigger_event: family_order_request
+    leader:
+      events:
+        - family_order_request_received
+      cross_check:
+        - event: family_order_request_received
+          against: family_order_request
+          fields: [product_no, product_name]
+
+  complete:
+    member:
+      events:
+        - family_order_complete
+    leader:
+      events:
+        - family_order_submitted_page_view
+        - family_order_complete
+        - order_v2
+      logpurchase_check:
+        pid: family_order
+      attribute_checks:
+        - key: last_purchase_date
+          expected: event_date_kst
+          trigger_event: family_order_complete
+
+  reject:
+    member:
+      events:
+        - family_order_request_cancel
+      optional_events:
+        - coupon_used_cancel
+      attribute_checks:
+        - key: purchase_history
+          check: array_not_contains
+          trigger_event: family_order_request
+          match_field: product_no
+    leader:
+      events:
+        - family_order_request_reject
+
+  cancel_after_complete:
+    member:
+      events:
+        - family_order_cancel
+        - family_order_total_cancel
+      optional_events:
+        - coupon_used_cancel
+      attribute_checks:
+        - key: purchase_history
+          check: array_not_contains
+          trigger_event: family_order_request
+          match_field: product_no
+    leader:
+      events:
+        - order_v2
+      logpurchase_check:
+        pid: family_order
+        amount: negative
