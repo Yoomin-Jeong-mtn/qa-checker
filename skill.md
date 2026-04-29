@@ -120,7 +120,10 @@ python3 {repo_path}/scripts/slack_notify_attributes.py '{results}' '{filename}' 
 
 ## 스펙 동기화 모드
 
-사용자가 "스펙 동기화", "sync", "시트 반영" 등을 요청하면 **QA 검증 대신** 아래 절차를 실행한다.
+사용자가 "스펙 동기화", "sync", "시트 반영", "yaml → 시트", "yaml을 시트에 반영" 등을 요청하면 **QA 검증 대신** 아래 절차를 실행한다.
+
+요청이 **시트 → YAML** 방향이면 S1~S3을 실행한다.
+요청이 **YAML → 시트** 방향이면 S4를 실행한다. 방향이 명시되지 않으면 사용자에게 확인한다.
 
 ### S1. 설정 읽기
 
@@ -143,6 +146,16 @@ python3 {repo_path}/scripts/sync_specs.py "{specs_url}" {repo_path}/specs {repo_
 - 변경된 이벤트 목록을 보여준다.
 - 변경사항이 있으면 팀원 반영을 위해 `git push` 여부를 묻는다.
 - 사용자가 동의하면: `git push origin main` (cwd: repo_path)
+
+### S4. YAML → 시트 동기화
+
+`sheet.sheet_id`, `sheet.tab_name`, `sheet.service_account`를 config에서 읽는다.
+
+```bash
+python3 {repo_path}/scripts/sync_yaml_to_sheet.py {repo_path}/specs {sheet_id} "{tab_name}" {service_account_path}
+```
+
+완료 후 업데이트된 행 수를 보고한다.
 
 ---
 
