@@ -30,8 +30,9 @@ properties:
   pattern: ^\d+$
 - key: opt_product_no
   type: string
-  required: true
-  allow_empty: false
+  required: false
+  allow_empty: true
+  pattern: ^\d+$
 - key: product_name
   type: string
   required: true

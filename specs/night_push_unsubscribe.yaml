@@ -19,3 +19,7 @@ properties:
   required: true
   allow_empty: false
   pattern: ^\d+$
+- key: path
+  type: string
+  required: false
+  allow_empty: true

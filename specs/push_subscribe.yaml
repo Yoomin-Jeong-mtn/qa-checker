@@ -23,3 +23,7 @@ properties:
   type: string
   required: true
   allow_empty: false
+- key: path
+  type: string
+  required: false
+  allow_empty: true
